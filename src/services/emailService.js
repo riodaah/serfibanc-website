@@ -10,11 +10,11 @@
 
 // Configuración de EmailJS - CAMBIAR ESTOS VALORES
 const EMAILJS_CONFIG = {
-  publicKey: 'TU_PUBLIC_KEY', // Reemplazar con tu Public Key de EmailJS
-  serviceId: 'TU_SERVICE_ID', // Reemplazar con tu Service ID
+  publicKey: 'OwkTPiRXxkmfE32-a', // Reemplazar con tu Public Key de EmailJS
+  serviceId: 'service_iqqkigw', // Reemplazar con tu Service ID
   templates: {
-    contacto: 'template_contacto', // Template para formulario de contacto
-    simulacion: 'template_simulacion' // Template para simulaciones
+    contacto: 'template_c95r9tt', // Template para formulario de contacto
+    simulacion: 'template_ps70ml9' // Template para simulaciones
   }
 };
 
