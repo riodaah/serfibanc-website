@@ -1,0 +1,52 @@
+{
+  "contacto": {
+    "whatsapp": "+56967270575",
+    "whatsappLink": "https://wa.me/56967270575",
+    "email": "contacto@serfibanc.cl",
+    "emailAdmin": "admin@serfibanc.cl",
+    "telefono": "+56967270575",
+    "instagram": "@serfibanc",
+    "facebook": "@serfibanc"
+  },
+  "simulacion": {
+    "montoMin": 5000000,
+    "montoMax": 200000000,
+    "maxCuotas": 60,
+    "tasaInteresPorDefecto": 1.2,
+    "opcionesMonto": [
+      5000000,
+      10000000,
+      20000000,
+      30000000,
+      40000000,
+      50000000,
+      75000000,
+      100000000,
+      150000000,
+      200000000
+    ],
+    "opcionesCuotas": [12, 24, 36, 48, 60]
+  },
+  "productos": {
+    "pyme": {
+      "nombre": "Crédito PYME",
+      "descripcion": "Financiamiento para capital de trabajo, inversión y crecimiento de tu empresa",
+      "ventasMinimas": 5000000
+    },
+    "hipotecario": {
+      "nombre": "Crédito Hipotecario",
+      "descripcion": "Te ayudamos a conseguir tu crédito hipotecario con bancos e instituciones financieras reguladas"
+    },
+    "automotriz": {
+      "nombre": "Crédito Automotriz",
+      "descripcion": "Te acompañamos en la gestión de tu crédito automotriz hasta el 100% del valor del vehículo"
+    }
+  },
+  "colores": {
+    "primarioDark": "#0B2447",
+    "primarioMedium": "#1F4690",
+    "primarioLight": "#5C7CFA",
+    "fondoClaro": "#F8F9FA"
+  }
+}
+

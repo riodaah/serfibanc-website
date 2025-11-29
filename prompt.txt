@@ -1,0 +1,315 @@
+Crea un sitio web moderno, elegante y confiable para **Serfibanc.cl**, asesores financieros que ayudan a personas y empresas a obtener créditos en bancos e instituciones financieras oficiales.  
+Serfibanc **NO es prestamista**, es un intermediario financiero regulado que asesora y acompaña al cliente.
+
+El objetivo principal del sitio es:
+1) Explicar de forma simple qué hace Serfibanc.
+2) Mostrar claramente los tipos de crédito: **Crédito PYME (comercial), Crédito Hipotecario y Crédito Automotriz**.
+3) Ofrecer un **simulador de crédito** para cada tipo de producto.
+4) Enviar por correo la simulación tanto al cliente como al administrador después de completar los datos.
+
+──────────────────
+⚙️ Stack y Arquitectura
+──────────────────
+- **React + Vite**
+- **TailwindCSS** para estilos modernos y responsivos.
+- **Framer Motion** para animaciones (fade-in, parallax suave, desplazamientos).
+- **React Router** para manejar:
+  - Página principal `/`
+  - Landing de cada producto:
+    - `/credito-pyme`
+    - `/credito-hipotecario`
+    - `/credito-automotriz`
+- Opcional: usar **React Hook Form** o formulario controlado para validaciones.
+- Crear una capa de servicio `services/simulacionApi.js` con una función `enviarSimulacion(datos)` que hoy solo haga un `console.log` o `fetch` a una URL placeholder (`/api/simulacion`) y deje comentarios `// TODO: Integrar con backend o Make para enviar correos reales`.
+
+──────────────────
+📁 Estructura de carpetas propuesta
+──────────────────
+`src/`
+- `assets/`
+  - `logo-serfibanc.png`
+  - `hero-bg.jpg` (imagen seria de oficina/finanzas)
+  - `servicios-contables.png`
+  - `credito-pyme.jpg`
+  - `credito-hipotecario.jpg`
+  - `credito-automotriz.jpg`
+  - Íconos simples lineales blancos para: Asesoría Contable, Cuenta Corriente, Factoring.
+- `components/`
+  - `Navbar.jsx`
+  - `Hero.jsx`
+  - `PasosSimulacion.jsx`  (timeline vertical como el ejemplo adjunto)
+  - `ServiciosEspeciales.jsx` (Asesoría Contable, Cuenta Corriente, Factoring)
+  - `ProductosCredito.jsx` (cards redondas para PYME, Hipotecario y Automotriz)
+  - `BloqueConfianza.jsx` (texto sobre trabajar con bancos e instituciones oficiales)
+  - `SimuladorCredito.jsx` (componente reutilizable para los tres tipos de crédito)
+  - `SimulacionResumenModal.jsx` (modal para mostrar resumen + pedir nombre/correo antes de enviar)
+  - `Footer.jsx`
+- `pages/`
+  - `Home.jsx`
+  - `CreditoPyme.jsx`
+  - `CreditoHipotecario.jsx`
+  - `CreditoAutomotriz.jsx`
+- `services/`
+  - `simulacionApi.js`
+- `config.json`
+- `App.jsx`
+- `main.jsx`
+- `styles/`
+  - `globals.css`
+
+──────────────────
+🎨 Estilo general
+──────────────────
+- Paleta principal:
+  - Fondo: blanco suave o gris muy claro.
+  - Elementos destacados: **azul oscuro** (#0B2447 aprox.), **azul medio** (#1F4690 aprox.).
+  - Acentos en botones y detalles: azul más vibrante o degradado azul-violeta muy sutil.
+- Estilo **corporativo, limpio y de confianza**, sin saturar con colores.
+- Tipografías:
+  - Títulos: algo sobrio tipo **Poppins / Montserrat semibold**.
+  - Texto cuerpo: **Inter / Roboto**.
+- Mucho espacio en blanco, tarjetas con bordes suaves (rounded-xl) y sombras sutiles.
+- Hover en botones con leve escala y sombra.
+- Efectos de Framer Motion:
+  - Secciones que aparecen con `fade-in + y` al hacer scroll.
+  - Timeline de pasos con pequeñas animaciones al entrar en viewport.
+  - Product cards con hover de leve escala y `box-shadow`.
+
+──────────────────
+📌 Contenido y Secciones – HOME
+──────────────────
+
+1) 🔝 Navbar
+- Logo de Serfibanc a la izquierda.
+- Menú con scroll suave a secciones:
+  - “Inicio”
+  - “Quiénes Somos”
+  - “Créditos”
+  - “Servicios”
+  - “Simuladores”
+  - “Contacto”
+- Botón destacado “Simula tu Crédito” que hace scroll directo a la sección de simuladores.
+- Fondo blanco con leve sombra cuando el usuario hace scroll (navbar sticky).
+
+2) 🏠 Hero Section
+- Fondo con **overlay azul oscuro semi-transparente** sobre una imagen de oficina / manos estrechándose (transmitir confianza).
+- Lado izquierdo:
+  - Título grande:
+    - “Asesores financieros que te ayudan a conseguir tu crédito con bancos e instituciones oficiales.”
+  - Subtítulo:
+    - “En Serfibanc analizamos tu caso, buscamos alternativas y te acompañamos en todo el proceso. No somos prestamistas: trabajamos con entidades financieras reguladas.”
+  - Botones:
+    - “Simular mi crédito” (scroll a simuladores).
+    - “Hablar con un asesor” (link a WhatsApp desde `config.json`).
+- Lado derecho:
+  - Tarjeta con resumen de los tipos de crédito:
+    - Crédito PYME
+    - Crédito Hipotecario
+    - Crédito Automotriz
+  - Animar con Framer Motion (entrada lateral).
+
+3) 👥 Sección “Quiénes Somos”
+- Fondo blanco.
+- Layout 2 columnas:
+  - Izquierda: imagen de reunión de trabajo / análisis financiero.
+  - Derecha: texto:
+    - “Serfibanc SpA es una empresa chilena con experiencia en asesoría financiera e inmobiliaria para personas, pymes y empresas.”
+    - Párrafos cortos explicando:
+      - Que son **intermediarios** y no prestamistas.
+      - Que buscan la mejor alternativa de crédito según el perfil del cliente.
+      - Que las evaluaciones comerciales son sin costo y se paga solo si hay resultados (si aplica).
+
+4) 🧩 Sección “Créditos que gestionamos”
+- Tres cards circulares (como el ejemplo):
+  - **Crédito PYME (Comercial)**
+    - Pequeña descripción: “Financiamiento para capital de trabajo, inversión y crecimiento de tu empresa.”
+    - Botón “Ver detalles” → navega a `/credito-pyme`.
+  - **Crédito Hipotecario**
+    - “Te ayudamos a conseguir tu crédito hipotecario con bancos e instituciones financieras reguladas.”
+    - Botón → `/credito-hipotecario`.
+  - **Crédito Automotriz**
+    - “Te acompañamos en la gestión de tu crédito automotriz hasta el 100% del valor del vehículo (según política de cada institución).”
+    - Botón → `/credito-automotriz`.
+- Cada card con entrada animada por Framer Motion.
+
+5) 📊 Sección “Cómo funciona la simulación”
+- Timeline vertical u horizontal (como el ejemplo de pasos con círculos y gradiente suave azul-morado).
+- Pasos:
+  - **Paso 01 – Selecciona el tipo de crédito**
+    - “Elige entre crédito PYME, hipotecario o automotriz.”
+  - **Paso 02 – Completa el simulador**
+    - “Ingresa el monto, plazo, ingreso mensual y algunos datos básicos.”
+  - **Paso 03 – Envía tu simulación**
+    - “Un asesor de Serfibanc revisará tu caso y te contactará.”
+  - **Paso 04 – Presenta tus documentos**
+    - “Te acompañamos en el envío de antecedentes al banco o institución financiera.”
+  - **Paso 05 – Obtén tu crédito**
+    - “Te ayudamos a llegar hasta la aprobación final.”
+- Animaciones suaves de entrada, con iconos sencillos.
+
+6) 🧮 Sección “Simuladores” (en Home)
+- Título: “Simula tu crédito en minutos”.
+- Tres tabs o tres cards con botón:
+  - “Simular Crédito PYME”
+  - “Simular Crédito Hipotecario”
+  - “Simular Crédito Automotriz”
+- Al hacer clic:
+  - O se abre el componente `SimuladorCredito` en la misma página con el tipo preseleccionado.
+  - O redirige a la landing específica del producto (decide el enfoque más limpio, pero usar siempre el mismo componente base).
+
+7) 🧾 Sección “Servicios Especializados”
+- Fondo azul oscuro con íconos lineales blancos.
+- Título: “Solicita nuestros servicios especializados”.
+- Tres columnas:
+  - **Solicitud de Cuenta Corriente**
+  - **Asesoría Contable**
+  - **Factoring y Capital de Trabajo**
+- Cada servicio con una breve descripción (2–3 líneas) y efecto hover.
+
+8) ✅ Bloque de confianza / regulaciones
+- Texto corto:
+  - “Trabajamos solo con bancos e instituciones financieras oficiales y reguladas en Chile.”
+  - “Todas las simulaciones son referenciales y pueden variar según evaluación final de la entidad financiera.”
+- Usar iconos de check / shield.
+
+9) 📞 Sección “Contacto”
+- Formulario simple:
+  - Nombre
+  - Email
+  - Teléfono / WhatsApp
+  - Tipo de crédito (select)
+  - Mensaje
+- Botón “Enviar consulta”.
+- Mostrar al lado datos directos:
+  - WhatsApp
+  - Correo de contacto
+  - Redes sociales (Instagram, Facebook).
+
+10) 🔻 Footer
+- Fondo azul muy oscuro.
+- Tres columnas:
+  - Logo + breve texto “Serfibanc SpA – Asesoría financiera para personas y empresas”.
+  - Menú:
+    - “Servicios”
+    - “Nosotros”
+    - “Contacto”
+  - Datos de contacto:
+    - Teléfono / WhatsApp
+    - Correo
+    - Instagram / Facebook
+- Línea inferior con texto pequeño:
+  - “Serfibanc SpA no es banco ni institución financiera. Las operaciones se gestionan con instituciones reguladas en Chile.”
+
+──────────────────
+📄 Landings de producto (PYME, Hipotecario, Automotriz)
+──────────────────
+Cada página (`CreditoPyme.jsx`, `CreditoHipotecario.jsx`, `CreditoAutomotriz.jsx`) debe:
+
+- Mostrar un **hero específico**:
+  - Título: “Crédito PYME”, “Crédito Hipotecario”, etc.
+  - Subtítulo con descripción corta.
+- Listar **beneficios específicos** del producto.
+- Mostrar una sección de FAQs cortas (3–5 preguntas típicas).
+- Incluir el componente **`SimuladorCredito`** completo para ese tipo.
+
+──────────────────
+🧮 Detalle del Simulador de Crédito
+──────────────────
+Crear un componente genérico `SimuladorCredito.jsx` que reciba props:
+- `tipo` ( "PYME" | "Hipotecario" | "Automotriz" )
+- `montoMin` (por defecto 50.000.000 CLP)
+- `montoMax` (por defecto 200.000.000 CLP)
+- `maxCuotas` (por defecto 60)
+- `tasaInteres` (ej: 1.2% mensual, configurable)
+
+Campos del formulario:
+
+1. **Monto del Crédito** (obligatorio)
+   - Select o slider con opciones entre 50 y 200 millones.
+   - Mostrar siempre formateado en CLP con separador de miles.
+
+2. **Cantidad de Cuotas** (obligatorio)
+   - Select con opciones 12, 24, 36, 48, 60.
+   - Máximo 60.
+
+3. **Ingreso Líquido Mensual** (obligatorio)
+   - Input numérico.
+   - Texto de ayuda debajo:
+     - “Ventas mensuales recomendadas desde $5.000.000 para créditos PYME.”
+     - Permitir custom text según tipo si es necesario.
+
+4. **Antigüedad** (obligatorio)
+   - Radio buttons: “Sí” / “No”.
+   - Texto de ayuda: “Tu antigüedad como Pyme debe ser mayor a 6 meses.”
+
+5. **Tasa de interés promedio** (solo lectura o seleccionable según config)
+   - Ejemplo: radio seleccionado con 1,2% mensual.
+
+6. **Contacto por WhatsApp** (checkbox obligatorio)
+   - Texto: “Acepto que me contacten por WhatsApp.”
+
+7. **Acepto las condiciones** (checkbox obligatorio)
+   - Texto: “Acepto las condiciones de simulación y políticas de privacidad.”
+
+Botón principal: **“Simular”**.
+
+🔁 Lógica de simulación:
+- Calcular cuota aproximada con fórmula de crédito estándar (sistema francés).
+- Mostrar:
+  - Monto solicitado
+  - Plazo en meses
+  - Tasa utilizada
+  - Valor cuota estimada
+- Mostrar un texto aclaratorio:
+  - “Esta es una simulación referencial. La aprobación y condiciones finales dependen de la evaluación de la institución financiera.”
+
+🧑‍💻 Flujo después de “Simular”:
+1. Validar campos y checkboxes.
+2. Abrir `SimulacionResumenModal` pidiendo:
+   - Nombre completo (requerido)
+   - Email (requerido)
+   - Teléfono / WhatsApp (requerido)
+3. En el modal mostrar un resumen:
+   - Tipo de crédito
+   - Monto
+   - Cuotas
+   - Ingreso
+   - Valor cuota estimada
+4. Al hacer clic en **“Confirmar y enviar simulación”**:
+   - Llamar a `enviarSimulacion(datos)` del archivo `simulacionApi.js`.
+   - `simulacionApi.js` solo tendrá un `console.log` y un fetch a una URL placeholder, con comentarios `// TODO: Integrar con backend o Make para envío de correos (cliente + administrador)`.
+
+──────────────────
+⚙️ config.json (ejemplo sugerido)
+──────────────────
+Crear un `config.json` en raíz con:
+
+- Colores principales (azules, textos, fondo).
+- Datos de contacto:
+  - correo de contacto
+  - correo administrador para simulaciones
+  - WhatsApp (link `https://wa.me/...`)
+- Límites de simulación:
+  - `montoMin`
+  - `montoMax`
+  - `maxCuotas`
+  - `tasaInteresPorDefecto`
+
+──────────────────
+🎬 Animaciones y detalles
+──────────────────
+- Usar `motion.div` para:
+  - Hero (fade-in al cargar).
+  - Cards de créditos (hover con escala).
+  - Timeline de pasos (aparición uno a uno mientras se hace scroll).
+- Evitar animaciones exageradas: todo debe verse **serio y profesional**.
+- Asegúrate de que todo sea **responsive** y se vea muy bien en móvil.
+
+──────────────────
+📝 Tono del copy
+──────────────────
+- Lenguaje claro, cercano y profesional.
+- Enfatizar siempre:
+  - “No somos prestamistas.”
+  - “Te ayudamos a conseguir tu crédito en instituciones financieras oficiales.”
+- Evitar tecnicismos muy complejos; explicar beneficios de forma simple.
