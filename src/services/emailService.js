@@ -52,7 +52,8 @@ export const enviarEmailContacto = async (datos) => {
     const response = await window.emailjs.send(
       EMAILJS_CONFIG.serviceId,
       EMAILJS_CONFIG.templates.contacto,
-      templateParams
+      templateParams,
+      EMAILJS_CONFIG.publicKey  // Agregar public key aquí
     );
 
     console.log('✅ Email de contacto enviado:', response);
@@ -110,7 +111,8 @@ export const enviarEmailSimulacion = async (datos) => {
     const response = await window.emailjs.send(
       EMAILJS_CONFIG.serviceId,
       EMAILJS_CONFIG.templates.simulacion,
-      templateParams
+      templateParams,
+      EMAILJS_CONFIG.publicKey  // Agregar public key aquí
     );
 
     console.log('✅ Email de simulación enviado:', response);
