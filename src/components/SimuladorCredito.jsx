@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
@@ -17,6 +17,39 @@ const SimuladorCredito = ({ tipo = 'PYME', montoMin, montoMax, maxCuotas, tasaIn
   const [cuotaCalculada, setCuotaCalculada] = useState(null);
   const [mostrarModal, setMostrarModal] = useState(false);
   const [errores, setErrores] = useState({});
+  const [tasaDinamica, setTasaDinamica] = useState(tasaInteres || config.simulacion.tasaInteresPorDefecto);
+
+  // Cargar tasas dinámicas del localStorage (configuradas por admin)
+  useEffect(() => {
+    const cargarTasas = () => {
+      const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+      if (tasasGuardadas) {
+        try {
+          const tasas = JSON.parse(tasasGuardadas);
+          const tipoLower = tipo.toLowerCase();
+          if (tasas[tipoLower]) {
+            setTasaDinamica(tasas[tipoLower]);
+          }
+        } catch (e) {
+          console.error('Error cargando tasas:', e);
+        }
+      }
+    };
+
+    cargarTasas();
+
+    // Escuchar cambios de tasas (cuando admin las actualiza)
+    const handleTasasActualizadas = (event) => {
+      const tasas = event.detail;
+      const tipoLower = tipo.toLowerCase();
+      if (tasas[tipoLower]) {
+        setTasaDinamica(tasas[tipoLower]);
+      }
+    };
+
+    window.addEventListener('tasasActualizadas', handleTasasActualizadas);
+    return () => window.removeEventListener('tasasActualizadas', handleTasasActualizadas);
+  }, [tipo]);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -53,7 +86,7 @@ const SimuladorCredito = ({ tipo = 'PYME', montoMin, montoMax, maxCuotas, tasaIn
       return;
     }
 
-    const tasa = tasaInteres || config.simulacion.tasaInteresPorDefecto;
+    const tasa = tasaDinamica;
     const cuota = calcularCuotaMensual(
       parseInt(formData.monto),
       tasa,
@@ -192,7 +225,7 @@ const SimuladorCredito = ({ tipo = 'PYME', montoMin, montoMax, maxCuotas, tasaIn
             </label>
             <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-300">
               <span className="text-gray-700">
-                {tasaInteres || config.simulacion.tasaInteresPorDefecto}% mensual
+                {tasaDinamica}% mensual
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-1">

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { formatearMonto, enviarSimulacion } from '../services/simulacionApi';
+import { formatearMonto } from '../services/simulacionApi';
+import { enviarEmailSimulacion } from '../services/emailService';
 import config from '../config.json';
 
 const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
@@ -41,7 +42,9 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
     try {
       const datosCompletos = {
         // Datos de contacto
-        ...datosContacto,
+        nombre: datosContacto.nombre,
+        email: datosContacto.email,
+        telefono: datosContacto.telefono,
         // Datos de la simulación
         tipoCredito: simulacion.tipo,
         monto: simulacion.monto,
@@ -49,19 +52,21 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
         tasaInteres: simulacion.tasa,
         cuotaMensual: simulacion.cuotaMensual,
         ingresoMensual: datosFormulario.ingresoMensual,
-        antiguedad: datosFormulario.antiguedad,
-        // Metadatos
-        fecha: new Date().toISOString(),
-        emailAdmin: config.contacto.emailAdmin
+        antiguedad: datosFormulario.antiguedad
       };
 
-      await enviarSimulacion(datosCompletos);
-      setEnviado(true);
-
-      // Cerrar modal después de 3 segundos
-      setTimeout(() => {
-        onClose();
-      }, 3000);
+      // Enviar vía EmailJS
+      const resultado = await enviarEmailSimulacion(datosCompletos);
+      
+      if (resultado.success) {
+        setEnviado(true);
+        // Cerrar modal después de 3 segundos
+        setTimeout(() => {
+          onClose();
+        }, 3000);
+      } else {
+        throw new Error('Error al enviar');
+      }
     } catch (err) {
       setError('Hubo un error al enviar la simulación. Por favor, intenta nuevamente.');
       setEnviando(false);

@@ -1,8 +1,7 @@
-import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import config from '../config.json';
+import { enviarEmailContacto } from '../services/emailService';
 
 const Contacto = () => {
   const ref = useRef(null);
@@ -30,21 +29,26 @@ const Contacto = () => {
     e.preventDefault();
     setEnviando(true);
     
-    // TODO: Integrar con backend o Make para enviar el formulario
-    console.log('📧 Enviando consulta:', formData);
-    
-    setTimeout(() => {
+    try {
+      // Enviar vía EmailJS
+      const resultado = await enviarEmailContacto(formData);
+      
+      if (resultado.success) {
+        setEnviado(true);
+        setFormData({
+          nombre: '',
+          email: '',
+          telefono: '',
+          tipoCredito: '',
+          mensaje: ''
+        });
+        setTimeout(() => setEnviado(false), 5000);
+      }
+    } catch (error) {
+      console.error('Error enviando formulario:', error);
+    } finally {
       setEnviando(false);
-      setEnviado(true);
-      setFormData({
-        nombre: '',
-        email: '',
-        telefono: '',
-        tipoCredito: '',
-        mensaje: ''
-      });
-      setTimeout(() => setEnviado(false), 5000);
-    }, 1500);
+    }
   };
 
   return (

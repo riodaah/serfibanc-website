@@ -66,14 +66,14 @@ const Hero = () => {
             </motion.div>
           </motion.div>
 
-          {/* Contenedor de Video */}
+          {/* Contenedor de Video - Visible en todas las pantallas */}
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden lg:block mt-8 lg:mt-0"
+            className="mt-8 lg:mt-0"
           >
-            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-white/10">
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-white/10 max-w-md mx-auto lg:max-w-none">
               <video
                 className="w-full h-auto rounded-xl"
                 autoPlay

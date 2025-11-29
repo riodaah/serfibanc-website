@@ -23,11 +23,13 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Logo y descripción */}
           <div>
-            <img
-              src="/imagenes/logo.webp"
-              alt="Serfibanc Logo"
-              className="h-12 w-auto mb-4 brightness-0 invert"
-            />
+            <div className="bg-white rounded-lg p-2 w-fit mb-4">
+              <img
+                src="/imagenes/logo.webp"
+                alt="Serfibanc Logo"
+                className="h-10 w-auto"
+              />
+            </div>
             <p className="text-gray-300 text-sm leading-relaxed">
               Serfibanc SpA – Asesoría financiera para personas y empresas.
               Te ayudamos a conseguir tu crédito con instituciones reguladas.
