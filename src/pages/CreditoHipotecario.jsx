@@ -58,7 +58,7 @@ const CreditoHipotecario = () => {
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-green-600 via-green-700 to-green-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="/Imagenes/Creditos-Hipotecarios.webp"
+            src="/imagenes/Creditos-Hipotecarios.webp"
             alt="Crédito Hipotecario"
             className="w-full h-full object-cover"
           />

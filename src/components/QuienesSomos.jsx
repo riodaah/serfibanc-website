@@ -8,8 +8,8 @@ const QuienesSomos = () => {
 
   return (
     <section id="quienes-somos" className="section-padding bg-white">
-      <div className="container-custom" ref={ref}>
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container-custom px-4 md:px-6" ref={ref}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Imagen */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -19,7 +19,7 @@ const QuienesSomos = () => {
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl">
               <img
-                src="/Imagenes/Negocios.webp"
+                src="/imagenes/Negocios.webp"
                 alt="Equipo Serfibanc"
                 className="w-full h-auto"
               />
@@ -35,7 +35,7 @@ const QuienesSomos = () => {
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
           >
-            <h2 className="font-display text-3xl md:text-4xl lg:text-5xl font-bold text-primary-dark mb-6">
+            <h2 className="font-display text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-primary-dark mb-4 md:mb-6 text-center lg:text-left">
               Quiénes <span className="text-primary-medium">Somos</span>
             </h2>
             
@@ -67,18 +67,18 @@ const QuienesSomos = () => {
               </div>
             </div>
 
-            <div className="mt-8 grid grid-cols-3 gap-6">
+            <div className="mt-6 md:mt-8 grid grid-cols-3 gap-3 md:gap-6">
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary-medium mb-1">+10</div>
-                <div className="text-sm text-gray-600">Años de Experiencia</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary-medium mb-1">+10</div>
+                <div className="text-xs md:text-sm text-gray-600">Años de Experiencia</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary-medium mb-1">+500</div>
-                <div className="text-sm text-gray-600">Clientes Atendidos</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary-medium mb-1">+500</div>
+                <div className="text-xs md:text-sm text-gray-600">Clientes Atendidos</div>
               </div>
               <div className="text-center">
-                <div className="text-3xl font-bold text-primary-medium mb-1">98%</div>
-                <div className="text-sm text-gray-600">Satisfacción</div>
+                <div className="text-2xl md:text-3xl font-bold text-primary-medium mb-1">98%</div>
+                <div className="text-xs md:text-sm text-gray-600">Satisfacción</div>
               </div>
             </div>
           </motion.div>

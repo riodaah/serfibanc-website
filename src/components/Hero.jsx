@@ -11,34 +11,34 @@ const Hero = () => {
   };
 
   return (
-    <section id="inicio" className="relative min-h-[85vh] flex items-center bg-[#020617] overflow-hidden">
+    <section id="inicio" className="relative min-h-screen pt-20 md:pt-24 pb-12 md:pb-0 md:min-h-[85vh] flex items-center bg-[#020617] overflow-hidden">
       {/* Fondo animado moderno */}
       <AnimatedHeroBackground />
 
-      <div className="container-custom relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <div className="container-custom relative z-10 px-4 md:px-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 items-center">
           {/* Contenido izquierdo */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-white"
+            className="text-white text-center lg:text-left"
           >
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
-              className="font-display text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-6 uppercase"
+              className="font-display text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-4 md:mb-6 uppercase"
             >
               ¿Te Rechazaron <br />
-              <span className="text-5xl md:text-6xl lg:text-7xl">El Crédito?</span>
+              <span className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl">El Crédito?</span>
             </motion.h1>
             
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-base md:text-lg text-white mb-2 font-semibold"
+              className="text-sm sm:text-base md:text-lg text-white mb-2 font-semibold"
             >
               Gestionamos créditos para empresas y personas con ingresos líquidos desde $700.000,
             </motion.p>
@@ -46,7 +46,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 }}
-              className="text-base md:text-lg text-white mb-8 font-semibold"
+              className="text-sm sm:text-base md:text-lg text-white mb-6 md:mb-8 font-semibold"
             >
               antigüedad laboral desde 1 año. SIN DICOM, SIN CASTIGOS!!
             </motion.p>
@@ -55,11 +55,11 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
               <button
                 onClick={() => scrollToSection('creditos')}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-8 py-4 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 hover:scale-105 uppercase text-sm tracking-wide"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/60 hover:scale-105 uppercase text-xs sm:text-sm tracking-wide"
               >
                 Simula tu Crédito →
               </button>
@@ -71,7 +71,7 @@ const Hero = () => {
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.3 }}
-            className="hidden lg:block"
+            className="hidden lg:block mt-8 lg:mt-0"
           >
             <div className="relative rounded-2xl overflow-hidden shadow-2xl bg-white/5 backdrop-blur-sm border border-white/10">
               <video
@@ -80,6 +80,7 @@ const Hero = () => {
                 loop
                 muted
                 playsInline
+                poster="/imagenes/Negocios.webp"
               >
                 <source src="/videos/serfibanc-presentacion.mp4" type="video/mp4" />
                 Tu navegador no soporta el elemento de video.

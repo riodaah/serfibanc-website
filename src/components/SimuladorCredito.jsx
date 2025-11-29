@@ -262,3 +262,4 @@ const SimuladorCredito = ({ tipo = 'PYME', montoMin, montoMax, maxCuotas, tasaIn
 
 export default SimuladorCredito;
 
+

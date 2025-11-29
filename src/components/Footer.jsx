@@ -24,7 +24,7 @@ const Footer = () => {
           {/* Logo y descripción */}
           <div>
             <img
-              src="/Imagenes/logo.webp"
+              src="/imagenes/logo.webp"
               alt="Serfibanc Logo"
               className="h-12 w-auto mb-4 brightness-0 invert"
             />

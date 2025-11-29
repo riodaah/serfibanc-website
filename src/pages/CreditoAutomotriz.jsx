@@ -58,7 +58,7 @@ const CreditoAutomotriz = () => {
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="/Imagenes/Credito-automotriz.webp"
+            src="/imagenes/Credito-automotriz.webp"
             alt="Crédito Automotriz"
             className="w-full h-full object-cover"
           />

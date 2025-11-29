@@ -40,3 +40,4 @@ Puedes cambiarlo por cualquier imagen de la carpeta Imagenes.
 
 **Nota:** Si no tienes un video, se mostrará un placeholder indicando dónde colocarlo.
 
+

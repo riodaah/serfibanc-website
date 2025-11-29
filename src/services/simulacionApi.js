@@ -61,3 +61,4 @@ export const calcularCuotaMensual = (monto, tasaMensual, numeroCuotas) => {
   return Math.round(cuota);
 };
 
+

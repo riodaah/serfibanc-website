@@ -58,7 +58,7 @@ const CreditoPyme = () => {
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
           <img
-            src="/Imagenes/Credito-empresa.webp"
+            src="/imagenes/Credito-empresa.webp"
             alt="Crédito PYME"
             className="w-full h-full object-cover"
           />

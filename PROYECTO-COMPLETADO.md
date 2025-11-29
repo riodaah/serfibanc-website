@@ -360,3 +360,4 @@ npm run dev
 *Desarrollado siguiendo las especificaciones del archivo prompt.txt*
 *Con tecnologías modernas: React + Vite + TailwindCSS + Framer Motion*
 
+

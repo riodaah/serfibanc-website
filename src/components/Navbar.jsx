@@ -45,14 +45,14 @@ const Navbar = () => {
         isScrolled ? 'bg-gradient-to-b from-[#020617] to-[#0a1628] shadow-lg shadow-blue-500/10' : 'bg-gradient-to-b from-[#020617]/98 to-[#0a1628]/98 backdrop-blur-md'
       } border-b border-blue-500/20`}
     >
-      <div className="container-custom">
-        <div className="flex items-center justify-between h-24">
+      <div className="container-custom px-4 md:px-6">
+        <div className="flex items-center justify-between h-20 md:h-24">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-2 relative group">
             <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-full blur-xl group-hover:blur-2xl transition-all"></div>
             <div className="relative bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-lg border border-white/20 group-hover:shadow-xl transition-all">
               <img
-                src="/Imagenes/logo.webp"
+                src="/imagenes/logo.webp"
                 alt="Serfibanc Logo"
                 className="h-16 w-auto"
               />
