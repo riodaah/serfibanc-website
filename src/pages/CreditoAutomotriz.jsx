@@ -2,9 +2,18 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import SimuladorCredito from '../components/SimuladorCredito';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const CreditoAutomotriz = () => {
   const [preguntaAbierta, setPreguntaAbierta] = useState(null);
+  
+  // SEO optimizado
+  const seoData = {
+    title: "Simula tu Crédito Automotriz Online | Serfibanc Chile",
+    description: "Simula tu crédito automotriz gratis. Financia hasta el 100% de tu vehículo nuevo o usado. Aprobación rápida en 24-72 horas. ¡Cotiza ahora!",
+    keywords: "simula tu crédito, simulador crédito automotriz, crédito auto Chile, préstamo vehículo, financiamiento auto, comprar auto Chile, Serfibanc",
+    canonical: "https://serfibanc.cl/credito-automotriz"
+  };
 
   const beneficios = [
     {
@@ -54,6 +63,8 @@ const CreditoAutomotriz = () => {
 
   return (
     <div className="pt-20">
+      <SEO {...seoData} />
+      
       {/* Hero específico */}
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-purple-600 via-purple-700 to-purple-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">

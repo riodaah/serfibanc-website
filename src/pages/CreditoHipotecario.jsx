@@ -2,9 +2,18 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import SimuladorCredito from '../components/SimuladorCredito';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const CreditoHipotecario = () => {
   const [preguntaAbierta, setPreguntaAbierta] = useState(null);
+  
+  // SEO optimizado
+  const seoData = {
+    title: "Simula tu Crédito Hipotecario Online | Serfibanc Chile",
+    description: "Simula tu crédito hipotecario gratis. Financia hasta el 100% de tu vivienda. Las mejores tasas del mercado. Asesoría completa hasta la escritura. ¡Cotiza ahora!",
+    keywords: "simula tu crédito, simulador crédito hipotecario, crédito vivienda Chile, préstamo casa, financiamiento hipotecario, comprar casa Chile, Serfibanc",
+    canonical: "https://serfibanc.cl/credito-hipotecario"
+  };
 
   const beneficios = [
     {
@@ -54,6 +63,8 @@ const CreditoHipotecario = () => {
 
   return (
     <div className="pt-20">
+      <SEO {...seoData} />
+      
       {/* Hero específico */}
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-green-600 via-green-700 to-green-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">

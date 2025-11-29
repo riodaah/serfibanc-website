@@ -1,0 +1,18 @@
+# Robots.txt para Serfibanc
+# https://serfibanc.cl
+
+User-agent: *
+Allow: /
+
+# Páginas principales
+Allow: /credito-pyme
+Allow: /credito-hipotecario
+Allow: /credito-automotriz
+
+# Bloquear admin
+Disallow: /admin
+Disallow: /admin/
+
+# Sitemap
+Sitemap: https://serfibanc.cl/sitemap.xml
+

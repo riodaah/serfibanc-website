@@ -1,14 +1,115 @@
 <!doctype html>
-<html lang="es">
+<html lang="es-CL">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image/webp" href="/imagenes/logo.webp" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="Serfibanc - Asesores financieros que te ayudan a conseguir tu crédito con bancos e instituciones oficiales" />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="/imagenes/logo.webp" />
+    <link rel="apple-touch-icon" href="/imagenes/logo.webp" />
+    
+    <!-- SEO Primary Meta Tags -->
+    <title>Simula tu Crédito PYME, Hipotecario y Automotriz | Serfibanc Chile</title>
+    <meta name="title" content="Simula tu Crédito PYME, Hipotecario y Automotriz | Serfibanc Chile" />
+    <meta name="description" content="Simula tu crédito online gratis. Asesoría financiera para créditos PYME, hipotecarios y automotriz en Chile. ¿Te rechazaron? Nosotros te ayudamos. Sin DICOM, sin castigos." />
+    <meta name="keywords" content="simula tu crédito, simulador de crédito, crédito PYME Chile, crédito hipotecario Chile, crédito automotriz, préstamo empresas, financiamiento PYME, crédito sin DICOM, asesoría financiera Chile, Serfibanc" />
+    <meta name="author" content="Serfibanc SpA" />
+    <meta name="robots" content="index, follow" />
+    <meta name="language" content="Spanish" />
+    <meta name="geo.region" content="CL" />
+    <meta name="geo.placename" content="Chile" />
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="https://serfibanc.cl/" />
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://serfibanc.cl/" />
+    <meta property="og:title" content="Simula tu Crédito PYME, Hipotecario y Automotriz | Serfibanc" />
+    <meta property="og:description" content="Simula tu crédito online gratis. Asesoría financiera para créditos PYME, hipotecarios y automotriz en Chile. ¿Te rechazaron? Nosotros te ayudamos." />
+    <meta property="og:image" content="https://serfibanc.cl/imagenes/og-image.webp" />
+    <meta property="og:locale" content="es_CL" />
+    <meta property="og:site_name" content="Serfibanc" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content="https://serfibanc.cl/" />
+    <meta property="twitter:title" content="Simula tu Crédito PYME, Hipotecario y Automotriz | Serfibanc" />
+    <meta property="twitter:description" content="Simula tu crédito online gratis. Asesoría financiera para créditos PYME, hipotecarios y automotriz en Chile." />
+    <meta property="twitter:image" content="https://serfibanc.cl/imagenes/og-image.webp" />
+
+    <!-- Structured Data - Organization -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FinancialService",
+      "name": "Serfibanc",
+      "alternateName": "Serfibanc SpA",
+      "url": "https://serfibanc.cl",
+      "logo": "https://serfibanc.cl/imagenes/logo.webp",
+      "description": "Asesoría financiera para créditos PYME, hipotecarios y automotriz en Chile. Simula tu crédito online gratis.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "CL"
+      },
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+56967270575",
+        "contactType": "customer service",
+        "availableLanguage": "Spanish"
+      },
+      "sameAs": [
+        "https://instagram.com/serfibanc",
+        "https://facebook.com/serfibanc"
+      ],
+      "serviceType": ["Crédito PYME", "Crédito Hipotecario", "Crédito Automotriz", "Asesoría Financiera"]
+    }
+    </script>
+
+    <!-- Structured Data - WebSite with SearchAction -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Serfibanc - Simula tu Crédito",
+      "url": "https://serfibanc.cl",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "https://serfibanc.cl/?s={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }
+    </script>
+
+    <!-- Structured Data - Service -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Service",
+      "serviceType": "Simulador de Crédito",
+      "provider": {
+        "@type": "Organization",
+        "name": "Serfibanc"
+      },
+      "areaServed": {
+        "@type": "Country",
+        "name": "Chile"
+      },
+      "description": "Simula tu crédito PYME, hipotecario o automotriz de forma gratuita y obtén una cotización al instante.",
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "CLP",
+        "description": "Simulación gratuita de créditos"
+      }
+    }
+    </script>
+
+    <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-    <title>Serfibanc - Asesoría Financiera</title>
+    
     <!-- EmailJS SDK -->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
   </head>
@@ -17,4 +118,3 @@
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
-

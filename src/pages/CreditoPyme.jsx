@@ -2,8 +2,16 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import SimuladorCredito from '../components/SimuladorCredito';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const CreditoPyme = () => {
+  // SEO optimizado para "simula tu crédito"
+  const seoData = {
+    title: "Simula tu Crédito PYME Online Gratis | Serfibanc Chile",
+    description: "Simula tu crédito PYME y obtén financiamiento desde $5.000.000 hasta $200.000.000. Respuesta en 48 horas. Sin DICOM, sin castigos. ¡Cotiza ahora!",
+    keywords: "simula tu crédito, simulador crédito PYME, crédito empresas Chile, financiamiento PYME, préstamo negocios, crédito capital de trabajo, Serfibanc",
+    canonical: "https://serfibanc.cl/credito-pyme"
+  };
   const [preguntaAbierta, setPreguntaAbierta] = useState(null);
 
   const beneficios = [
@@ -54,6 +62,8 @@ const CreditoPyme = () => {
 
   return (
     <div className="pt-20">
+      <SEO {...seoData} />
+      
       {/* Hero específico */}
       <section className="relative min-h-[60vh] flex items-center bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 overflow-hidden">
         <div className="absolute inset-0 opacity-20">
