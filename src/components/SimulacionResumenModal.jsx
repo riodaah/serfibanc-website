@@ -263,9 +263,9 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
                     <button
                       onClick={handleEnviar}
                       disabled={enviando}
-                      className="flex-1 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="flex-1 bg-gradient-to-r from-green-500 to-green-600 hover:from-green-600 hover:to-green-700 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      {enviando ? 'Enviando...' : 'Confirmar y Enviar'}
+                      {enviando ? 'Enviando...' : '¡Solicitar Crédito!'}
                     </button>
                   </div>
                 </motion.div>

@@ -1,11 +1,12 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import config from '../config.json';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [simuladoresOpen, setSimuladoresOpen] = useState(false);
   const location = useLocation();
 
   useEffect(() => {
@@ -33,8 +34,13 @@ const Navbar = () => {
     { label: 'Quiénes Somos', section: 'quienes-somos' },
     { label: 'Créditos', section: 'creditos' },
     { label: 'Servicios', section: 'servicios' },
-    { label: 'Simuladores', section: 'simuladores' },
     { label: 'Contacto', section: 'contacto' },
+  ];
+
+  const simuladores = [
+    { label: 'Crédito PYME', link: '/credito-pyme' },
+    { label: 'Crédito Hipotecario', link: '/credito-hipotecario' },
+    { label: 'Crédito Automotriz', link: '/credito-automotriz' },
   ];
 
   return (
@@ -70,16 +76,55 @@ const Navbar = () => {
                 {item.label}
               </button>
             ))}
+            
+            {/* Dropdown Simuladores */}
+            <div 
+              className="relative"
+              onMouseEnter={() => setSimuladoresOpen(true)}
+              onMouseLeave={() => setSimuladoresOpen(false)}
+            >
+              <button
+                className="text-white hover:text-gray-200 font-medium transition-colors duration-200 uppercase text-sm flex items-center gap-1"
+              >
+                Simuladores
+                <svg className={`w-4 h-4 transition-transform ${simuladoresOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              <AnimatePresence>
+                {simuladoresOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 10 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute top-full left-0 mt-2 w-56 bg-white rounded-xl shadow-xl overflow-hidden border border-gray-100"
+                  >
+                    {simuladores.map((sim) => (
+                      <Link
+                        key={sim.link}
+                        to={sim.link}
+                        className="block px-4 py-3 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors text-sm font-medium"
+                        onClick={() => setSimuladoresOpen(false)}
+                      >
+                        {sim.label}
+                      </Link>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
 
           {/* CTA Button */}
           <div className="hidden lg:block">
-            <button
-              onClick={() => scrollToSection('simuladores')}
-              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 uppercase text-sm"
+            <Link
+              to="/credito-pyme"
+              className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 uppercase text-sm inline-block"
             >
               Simula tu Crédito
-            </button>
+            </Link>
           </div>
 
           {/* Mobile Menu Button */}
@@ -129,13 +174,30 @@ const Navbar = () => {
                 {item.label}
               </button>
             ))}
+            
+            {/* Simuladores en mobile */}
+            <div className="border-t border-white/10 mt-2 pt-2">
+              <p className="px-4 py-2 text-gray-400 text-xs uppercase tracking-wider">Simuladores</p>
+              {simuladores.map((sim) => (
+                <Link
+                  key={sim.link}
+                  to={sim.link}
+                  className="block w-full text-left px-6 py-3 text-white hover:bg-white/10 transition-colors text-sm"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  {sim.label}
+                </Link>
+              ))}
+            </div>
+            
             <div className="px-4 pt-4">
-              <button
-                onClick={() => scrollToSection('creditos')}
-                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 uppercase text-sm w-full text-center"
+              <Link
+                to="/credito-pyme"
+                className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white font-bold px-6 py-3 rounded-lg transition-all duration-300 shadow-lg shadow-blue-500/30 uppercase text-sm w-full text-center block"
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 Simula tu Crédito
-              </button>
+              </Link>
             </div>
           </motion.div>
         )}
@@ -145,4 +207,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
