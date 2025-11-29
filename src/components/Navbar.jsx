@@ -48,9 +48,9 @@ const Navbar = () => {
       <div className="container-custom">
         <div className="flex items-center justify-between h-24">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2 relative">
-            <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-full blur-xl"></div>
-            <div className="relative bg-white/95 backdrop-blur-sm rounded-full p-0.5 shadow-lg border border-white/20">
+          <Link to="/" className="flex items-center space-x-2 relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-white/5 via-white/10 to-white/5 rounded-full blur-xl group-hover:blur-2xl transition-all"></div>
+            <div className="relative bg-white/95 backdrop-blur-sm rounded-full p-1 shadow-lg border border-white/20 group-hover:shadow-xl transition-all">
               <img
                 src="/Imagenes/logo.webp"
                 alt="Serfibanc Logo"
