@@ -18,22 +18,22 @@ const CreditoPyme = () => {
     {
       icon: '💰',
       titulo: 'Montos Flexibles',
-      descripcion: 'Desde $5.000.000 hasta $200.000.000 según tu necesidad'
+      descripcion: 'Gestionamos desde $5.000.000, según tus necesidades'
     },
     {
       icon: '📅',
       titulo: 'Plazos Extendidos',
-      descripcion: 'Hasta 60 meses para pagar tu crédito'
+      descripcion: 'Paga tu crédito en el plazo más conveniente'
     },
     {
       icon: '⚡',
       titulo: 'Respuesta Rápida',
-      descripcion: 'Evaluación comercial en menos de 48 horas'
+      descripcion: 'Evaluación preliminar en menos de 48hrs.'
     },
     {
       icon: '🎯',
-      titulo: 'Sin Costo Inicial',
-      descripcion: 'Paga solo si hay resultados positivos'
+      titulo: 'Pagos Contra Resultados',
+      descripcion: 'Paga solo contra resultados positivos'
     }
   ];
 

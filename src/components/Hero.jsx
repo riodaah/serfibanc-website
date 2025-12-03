@@ -38,17 +38,9 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-sm sm:text-base md:text-lg text-white mb-2 font-semibold"
-            >
-              Gestionamos créditos para empresas y personas con ingresos líquidos desde $700.000,
-            </motion.p>
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
               className="text-sm sm:text-base md:text-lg text-white mb-6 md:mb-8 font-semibold"
             >
-              antigüedad laboral desde 1 año. SIN DICOM, SIN CASTIGOS!!
+              Gestionamos créditos para empresas y particulares con ingresos líquidos desde $700.000, antigüedad laboral desde 1 año, SIN DICOM y SIN CASTIGOS!!
             </motion.p>
 
             <motion.div

@@ -19,15 +19,15 @@ const PasosSimulacionMejorado = () => {
   const pasos = [
     {
       numero: '01',
-      titulo: 'Selecciona el tipo de crédito',
-      descripcion: 'Elige entre crédito PYME, hipotecario o automotriz según tus necesidades.',
+      titulo: 'Selecciona tipo de crédito',
+      descripcion: 'Elige crédito PYME, Hipotecario o Automotriz según tus necesidades.',
       icon: '📋',
       color: 'from-purple-500 to-pink-500'
     },
     {
       numero: '02',
       titulo: 'Completa el simulador',
-      descripcion: 'Ingresa el monto, plazo, ingreso mensual y algunos datos básicos.',
+      descripcion: 'Ingresa monto, cantidad cuotas, ingreso mensual y datos personales.',
       icon: '📝',
       color: 'from-pink-500 to-blue-500'
     },
@@ -41,14 +41,14 @@ const PasosSimulacionMejorado = () => {
     {
       numero: '04',
       titulo: 'Presenta tus documentos',
-      descripcion: 'Te acompañamos en el envío de antecedentes al banco o institución financiera.',
+      descripcion: 'Solicitaremos documentación inicial, para evaluación preliminar.',
       icon: '📄',
       color: 'from-cyan-500 to-teal-500'
     },
     {
       numero: '05',
       titulo: 'Obtén tu crédito',
-      descripcion: 'Te ayudamos a llegar hasta la aprobación final.',
+      descripcion: 'Te contactaremos para informar la aprobación del crédito',
       icon: '✅',
       color: 'from-teal-500 to-green-500'
     },

@@ -19,22 +19,22 @@ const CreditoHipotecario = () => {
     {
       icon: '🏡',
       titulo: 'Tu Casa Propia',
-      descripcion: 'Financia hasta el 100% del valor de la propiedad según política de cada institución'
+      descripcion: 'Te ayudamos a financiar hasta el 100% del valor de la propiedad (ahorros mínimos desde $3.000.000)'
     },
     {
       icon: '📊',
       titulo: 'Mejores Tasas',
-      descripcion: 'Te ayudamos a encontrar las tasas más competitivas del mercado'
+      descripcion: 'Buscamos la mejor alternativa según monto ($), tasa (%) y plazos de pago'
     },
     {
       icon: '🔍',
       titulo: 'Asesoría Completa',
-      descripcion: 'Te acompañamos desde la evaluación hasta la firma de la escritura'
+      descripcion: 'Te acompañamos en todo el proceso hasta la entrega de la propiedad'
     },
     {
       icon: '✅',
       titulo: 'Sin Sorpresas',
-      descripcion: 'Transparencia en todo el proceso y costos asociados'
+      descripcion: 'Contratos de servicios para cada asesoría y gestión'
     }
   ];
 

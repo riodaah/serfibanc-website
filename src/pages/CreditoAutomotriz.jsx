@@ -19,7 +19,7 @@ const CreditoAutomotriz = () => {
     {
       icon: '🚗',
       titulo: 'Hasta 100% Financiamiento',
-      descripcion: 'Financia hasta el 100% del valor del vehículo según política de cada institución'
+      descripcion: 'Te ayudamos a financiar hasta el 100% del valor del vehículo'
     },
     {
       icon: '⚡',
@@ -34,7 +34,7 @@ const CreditoAutomotriz = () => {
     {
       icon: '💳',
       titulo: 'Cuotas Flexibles',
-      descripcion: 'Plazos desde 12 hasta 60 meses según tu capacidad de pago'
+      descripcion: 'Paga tu crédito en el plazo más conveniente'
     }
   ];
 
