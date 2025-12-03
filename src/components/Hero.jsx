@@ -74,7 +74,7 @@ const Hero = () => {
                 playsInline
                 poster="/imagenes/Negocios.webp"
               >
-                <source src="/videos/serfibanc-presentacion.mp4" type="video/mp4" />
+                <source src="/videos/serfibanc-presentacion-2.mp4" type="video/mp4" />
                 Tu navegador no soporta el elemento de video.
               </video>
             </div>
