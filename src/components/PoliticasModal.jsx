@@ -147,3 +147,5 @@ const PoliticasModal = ({ tipo, onClose }) => {
 export default PoliticasModal;
 
 
+
+

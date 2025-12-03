@@ -311,3 +311,5 @@ Ejecutar: INICIO-RAPIDO.bat
 *Para soporte, consulta los archivos de documentación incluidos.*
 
 
+
+

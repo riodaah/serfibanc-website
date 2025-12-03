@@ -62,3 +62,5 @@ export const calcularCuotaMensual = (monto, tasaMensual, numeroCuotas) => {
 };
 
 
+
+

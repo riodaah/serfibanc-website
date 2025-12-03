@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
-import SimuladorCredito from '../components/SimuladorCredito';
+import SimuladorHipotecario from '../components/SimuladorHipotecario';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 
@@ -149,7 +149,7 @@ const CreditoHipotecario = () => {
               </p>
             </motion.div>
 
-            <SimuladorCredito tipo="Hipotecario" />
+            <SimuladorHipotecario />
           </div>
         </div>
       </section>

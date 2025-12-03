@@ -229,7 +229,11 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-200 mb-1">Plazo</p>
-                        <p className="text-lg font-semibold">{simulacion.cuotas} meses</p>
+                        <p className="text-lg font-semibold">
+                          {simulacion.tipo === 'Hipotecario' && simulacion.cuotasAnios
+                            ? `${simulacion.cuotasAnios} ${simulacion.cuotasAnios === 1 ? 'año' : 'años'}`
+                            : `${simulacion.cuotas} meses`}
+                        </p>
                       </div>
                       <div>
                         <p className="text-sm text-gray-200 mb-1">Tasa de Interés</p>
