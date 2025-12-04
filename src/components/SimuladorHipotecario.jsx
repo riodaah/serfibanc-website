@@ -86,13 +86,17 @@ const SimuladorHipotecario = () => {
       return;
     }
 
-    const tasa = tasaDinamica;
+    // Para crédito hipotecario, la tasa configurada es ANUAL
+    const tasaAnual = tasaDinamica;
     const años = parseInt(formData.cuotas);
     const meses = años * 12; // Convertir años a meses para el cálculo
     
+    // Convertir tasa anual a mensual para el cálculo del Sistema Francés
+    const tasaMensual = tasaAnual / 12;
+    
     const cuota = calcularCuotaMensual(
       parseInt(formData.monto),
-      tasa,
+      tasaMensual,
       meses
     );
 
@@ -100,7 +104,8 @@ const SimuladorHipotecario = () => {
       monto: parseInt(formData.monto),
       cuotas: meses, // Guardamos en meses para el cálculo
       cuotasAnios: años, // Guardamos años para mostrar
-      tasa: tasa,
+      tasa: tasaAnual, // Mostramos la tasa anual
+      tasaAnual: true, // Flag para indicar que es tasa anual
       cuotaMensual: cuota,
       tipo: 'Hipotecario'
     });
@@ -212,18 +217,18 @@ const SimuladorHipotecario = () => {
             {errores.antiguedad && <p className="text-red-500 text-sm mt-1">{errores.antiguedad}</p>}
           </div>
 
-          {/* Tasa de Interés */}
+          {/* Tasa de Interés - Para hipotecario es ANUAL */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Tasa de interés promedio
+              Tasa de interés anual promedio
             </label>
             <div className="bg-gray-50 px-4 py-3 rounded-lg border border-gray-300">
               <span className="text-gray-700">
-                {tasaDinamica}% mensual
+                {tasaDinamica}% anual
               </span>
             </div>
             <p className="text-xs text-gray-500 mt-1">
-              Tasa referencial, puede variar según institución financiera
+              Tasa referencial anual, puede variar según institución financiera
             </p>
           </div>
 
@@ -288,4 +293,5 @@ const SimuladorHipotecario = () => {
 };
 
 export default SimuladorHipotecario;
+
 

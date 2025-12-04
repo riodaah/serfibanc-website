@@ -237,7 +237,9 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
                       </div>
                       <div>
                         <p className="text-sm text-gray-200 mb-1">Tasa de Interés</p>
-                        <p className="text-lg font-semibold">{simulacion.tasa}% mensual</p>
+                        <p className="text-lg font-semibold">
+                          {simulacion.tasa}% {simulacion.tasaAnual ? 'anual' : 'mensual'}
+                        </p>
                       </div>
                     </div>
                     

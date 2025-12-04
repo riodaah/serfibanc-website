@@ -72,6 +72,7 @@ const ConfiguracionTasas = () => {
       nombre: 'Crédito PYME',
       descripcion: 'Financiamiento para empresas y emprendedores',
       color: 'blue',
+      tipoTasa: 'mensual', // Tasa mensual para PYME
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
@@ -81,8 +82,9 @@ const ConfiguracionTasas = () => {
     {
       id: 'hipotecario',
       nombre: 'Crédito Hipotecario',
-      descripcion: 'Financiamiento para vivienda',
+      descripcion: 'Financiamiento para vivienda (tasa ANUAL)',
       color: 'green',
+      tipoTasa: 'anual', // Tasa anual para Hipotecario
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -94,6 +96,7 @@ const ConfiguracionTasas = () => {
       nombre: 'Crédito Automotriz',
       descripcion: 'Financiamiento para vehículos',
       color: 'purple',
+      tipoTasa: 'mensual', // Tasa mensual para Automotriz
       icon: (
         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -161,7 +164,10 @@ const ConfiguracionTasas = () => {
           <div className="mb-8">
             <h2 className="text-2xl font-bold text-gray-800">Tasas de Interés</h2>
             <p className="text-gray-600 mt-1">
-              Configura las tasas mensuales que se aplicarán en los simuladores de crédito.
+              Configura las tasas que se aplicarán en los simuladores de crédito.
+            </p>
+            <p className="text-sm text-amber-600 mt-2">
+              ⚠️ Nota: PYME y Automotriz usan tasa <strong>mensual</strong>, Hipotecario usa tasa <strong>anual</strong>.
             </p>
           </div>
 
@@ -192,7 +198,7 @@ const ConfiguracionTasas = () => {
                     {/* Input */}
                     <div className="flex items-center gap-3">
                       <label className="text-sm font-medium text-gray-700">
-                        Tasa mensual:
+                        Tasa {tipo.tipoTasa}:
                       </label>
                       <div className="relative">
                         <input
@@ -289,6 +295,7 @@ const ConfiguracionTasas = () => {
 };
 
 export default ConfiguracionTasas;
+
 
 
 
