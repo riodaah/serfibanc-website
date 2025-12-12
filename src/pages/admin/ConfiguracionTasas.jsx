@@ -46,14 +46,22 @@ const ConfiguracionTasas = () => {
   const handleGuardar = async () => {
     setGuardando(true);
     
+    console.log('💾 [Admin] Guardando tasas:', tasas);
+    
     // Simular guardado (en producción sería a DynamoDB)
     await new Promise(resolve => setTimeout(resolve, 800));
     
     // Guardar en localStorage
     localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+    console.log('✅ [Admin] Tasas guardadas en localStorage');
+    
+    // Verificar que se guardó correctamente
+    const verificacion = localStorage.getItem('serfibanc_tasas');
+    console.log('🔍 [Admin] Verificación de guardado:', verificacion);
     
     // También actualizar el evento para que los simuladores se enteren
     window.dispatchEvent(new CustomEvent('tasasActualizadas', { detail: tasas }));
+    console.log('📡 [Admin] Evento tasasActualizadas disparado');
     
     setGuardando(false);
     setGuardado(true);

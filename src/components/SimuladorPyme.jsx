@@ -23,15 +23,22 @@ const SimuladorPyme = () => {
   useEffect(() => {
     const cargarTasas = () => {
       const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+      console.log('🔍 [PYME] Cargando tasas del localStorage:', tasasGuardadas);
       if (tasasGuardadas) {
         try {
           const tasas = JSON.parse(tasasGuardadas);
+          console.log('✅ [PYME] Tasas parseadas:', tasas);
           if (tasas.pyme) {
+            console.log('✅ [PYME] Aplicando tasa:', tasas.pyme);
             setTasaDinamica(tasas.pyme);
+          } else {
+            console.warn('⚠️ [PYME] No se encontró tasa para pyme');
           }
         } catch (e) {
-          console.error('Error cargando tasas:', e);
+          console.error('❌ [PYME] Error cargando tasas:', e);
         }
+      } else {
+        console.warn('⚠️ [PYME] No hay tasas guardadas en localStorage');
       }
     };
 
@@ -40,7 +47,9 @@ const SimuladorPyme = () => {
     // Escuchar cambios de tasas (cuando admin las actualiza)
     const handleTasasActualizadas = (event) => {
       const tasas = event.detail;
+      console.log('📡 [PYME] Evento tasasActualizadas recibido:', tasas);
       if (tasas.pyme) {
+        console.log('✅ [PYME] Actualizando tasa desde evento:', tasas.pyme);
         setTasaDinamica(tasas.pyme);
       }
     };

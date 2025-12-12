@@ -25,15 +25,22 @@ const SimuladorAutomotriz = () => {
   useEffect(() => {
     const cargarTasas = () => {
       const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+      console.log('🔍 [Automotriz] Cargando tasas del localStorage:', tasasGuardadas);
       if (tasasGuardadas) {
         try {
           const tasas = JSON.parse(tasasGuardadas);
+          console.log('✅ [Automotriz] Tasas parseadas:', tasas);
           if (tasas.automotriz) {
+            console.log('✅ [Automotriz] Aplicando tasa:', tasas.automotriz);
             setTasaDinamica(tasas.automotriz);
+          } else {
+            console.warn('⚠️ [Automotriz] No se encontró tasa para automotriz');
           }
         } catch (e) {
-          console.error('Error cargando tasas:', e);
+          console.error('❌ [Automotriz] Error cargando tasas:', e);
         }
+      } else {
+        console.warn('⚠️ [Automotriz] No hay tasas guardadas en localStorage');
       }
     };
 
@@ -42,7 +49,9 @@ const SimuladorAutomotriz = () => {
     // Escuchar cambios de tasas (cuando admin las actualiza)
     const handleTasasActualizadas = (event) => {
       const tasas = event.detail;
+      console.log('📡 [Automotriz] Evento tasasActualizadas recibido:', tasas);
       if (tasas.automotriz) {
+        console.log('✅ [Automotriz] Actualizando tasa desde evento:', tasas.automotriz);
         setTasaDinamica(tasas.automotriz);
       }
     };
@@ -284,5 +293,7 @@ const SimuladorAutomotriz = () => {
 };
 
 export default SimuladorAutomotriz;
+
+
 
 
