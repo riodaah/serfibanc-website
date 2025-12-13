@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
 import SimulacionResumenModal from './SimulacionResumenModal';
+import { tasasService } from '../services/supabaseConfig';
 
 const SimuladorAutomotriz = () => {
   const configSimulacion = config.simulacion.automotriz;
@@ -21,26 +22,39 @@ const SimuladorAutomotriz = () => {
   const [errores, setErrores] = useState({});
   const [tasaDinamica, setTasaDinamica] = useState(config.simulacion.tasaInteresPorDefecto);
 
-  // Cargar tasas dinámicas del localStorage (configuradas por admin)
+  // Cargar tasas desde Supabase (configuradas por admin)
   useEffect(() => {
-    const cargarTasas = () => {
-      const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-      console.log('🔍 [Automotriz] Cargando tasas del localStorage:', tasasGuardadas);
-      if (tasasGuardadas) {
-        try {
-          const tasas = JSON.parse(tasasGuardadas);
-          console.log('✅ [Automotriz] Tasas parseadas:', tasas);
-          if (tasas.automotriz) {
-            console.log('✅ [Automotriz] Aplicando tasa:', tasas.automotriz);
-            setTasaDinamica(tasas.automotriz);
-          } else {
-            console.warn('⚠️ [Automotriz] No se encontró tasa para automotriz');
-          }
-        } catch (e) {
-          console.error('❌ [Automotriz] Error cargando tasas:', e);
+    const cargarTasas = async () => {
+      try {
+        console.log('📥 [Automotriz] Cargando tasas desde Supabase...');
+        const tasas = await tasasService.obtenerTasas();
+        console.log('✅ [Automotriz] Tasas obtenidas:', tasas);
+        
+        if (tasas.automotriz) {
+          console.log('✅ [Automotriz] Aplicando tasa:', tasas.automotriz);
+          setTasaDinamica(tasas.automotriz);
+          
+          // También actualizar localStorage como caché
+          localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+        } else {
+          console.warn('⚠️ [Automotriz] No se encontró tasa para automotriz');
         }
-      } else {
-        console.warn('⚠️ [Automotriz] No hay tasas guardadas en localStorage');
+      } catch (e) {
+        console.error('❌ [Automotriz] Error cargando tasas:', e);
+        
+        // Fallback a localStorage si falla Supabase
+        const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+        if (tasasGuardadas) {
+          try {
+            const tasas = JSON.parse(tasasGuardadas);
+            if (tasas.automotriz) {
+              console.log('🔄 [Automotriz] Usando tasa de caché localStorage:', tasas.automotriz);
+              setTasaDinamica(tasas.automotriz);
+            }
+          } catch (e2) {
+            console.error('❌ [Automotriz] Error parseando localStorage:', e2);
+          }
+        }
       }
     };
 

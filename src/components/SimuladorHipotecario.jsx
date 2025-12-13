@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
 import SimulacionResumenModal from './SimulacionResumenModal';
+import { tasasService } from '../services/supabaseConfig';
 
 const SimuladorHipotecario = () => {
   const configSimulacion = config.simulacion.hipotecario;
@@ -21,18 +22,38 @@ const SimuladorHipotecario = () => {
   const [errores, setErrores] = useState({});
   const [tasaDinamica, setTasaDinamica] = useState(config.simulacion.tasaInteresPorDefecto);
 
-  // Cargar tasas dinámicas del localStorage (configuradas por admin)
+  // Cargar tasas desde Supabase (configuradas por admin)
   useEffect(() => {
-    const cargarTasas = () => {
-      const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-      if (tasasGuardadas) {
-        try {
-          const tasas = JSON.parse(tasasGuardadas);
-          if (tasas.hipotecario) {
-            setTasaDinamica(tasas.hipotecario);
+    const cargarTasas = async () => {
+      try {
+        console.log('📥 [Hipotecario] Cargando tasas desde Supabase...');
+        const tasas = await tasasService.obtenerTasas();
+        console.log('✅ [Hipotecario] Tasas obtenidas:', tasas);
+        
+        if (tasas.hipotecario) {
+          console.log('✅ [Hipotecario] Aplicando tasa:', tasas.hipotecario);
+          setTasaDinamica(tasas.hipotecario);
+          
+          // También actualizar localStorage como caché
+          localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+        } else {
+          console.warn('⚠️ [Hipotecario] No se encontró tasa para hipotecario');
+        }
+      } catch (e) {
+        console.error('❌ [Hipotecario] Error cargando tasas:', e);
+        
+        // Fallback a localStorage si falla Supabase
+        const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+        if (tasasGuardadas) {
+          try {
+            const tasas = JSON.parse(tasasGuardadas);
+            if (tasas.hipotecario) {
+              console.log('🔄 [Hipotecario] Usando tasa de caché localStorage:', tasas.hipotecario);
+              setTasaDinamica(tasas.hipotecario);
+            }
+          } catch (e2) {
+            console.error('❌ [Hipotecario] Error parseando localStorage:', e2);
           }
-        } catch (e) {
-          console.error('Error cargando tasas:', e);
         }
       }
     };
@@ -42,7 +63,9 @@ const SimuladorHipotecario = () => {
     // Escuchar cambios de tasas (cuando admin las actualiza)
     const handleTasasActualizadas = (event) => {
       const tasas = event.detail;
+      console.log('📡 [Hipotecario] Evento tasasActualizadas recibido:', tasas);
       if (tasas.hipotecario) {
+        console.log('✅ [Hipotecario] Actualizando tasa desde evento:', tasas.hipotecario);
         setTasaDinamica(tasas.hipotecario);
       }
     };

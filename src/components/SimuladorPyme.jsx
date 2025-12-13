@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
 import SimulacionResumenModal from './SimulacionResumenModal';
+import { tasasService } from '../services/supabaseConfig';
 
 const SimuladorPyme = () => {
   const configSimulacion = config.simulacion.pyme;
@@ -19,26 +20,39 @@ const SimuladorPyme = () => {
   const [errores, setErrores] = useState({});
   const [tasaDinamica, setTasaDinamica] = useState(config.simulacion.tasaInteresPorDefecto);
 
-  // Cargar tasas dinámicas del localStorage (configuradas por admin)
+  // Cargar tasas desde Supabase (configuradas por admin)
   useEffect(() => {
-    const cargarTasas = () => {
-      const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-      console.log('🔍 [PYME] Cargando tasas del localStorage:', tasasGuardadas);
-      if (tasasGuardadas) {
-        try {
-          const tasas = JSON.parse(tasasGuardadas);
-          console.log('✅ [PYME] Tasas parseadas:', tasas);
-          if (tasas.pyme) {
-            console.log('✅ [PYME] Aplicando tasa:', tasas.pyme);
-            setTasaDinamica(tasas.pyme);
-          } else {
-            console.warn('⚠️ [PYME] No se encontró tasa para pyme');
-          }
-        } catch (e) {
-          console.error('❌ [PYME] Error cargando tasas:', e);
+    const cargarTasas = async () => {
+      try {
+        console.log('📥 [PYME] Cargando tasas desde Supabase...');
+        const tasas = await tasasService.obtenerTasas();
+        console.log('✅ [PYME] Tasas obtenidas:', tasas);
+        
+        if (tasas.pyme) {
+          console.log('✅ [PYME] Aplicando tasa:', tasas.pyme);
+          setTasaDinamica(tasas.pyme);
+          
+          // También actualizar localStorage como caché
+          localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+        } else {
+          console.warn('⚠️ [PYME] No se encontró tasa para pyme');
         }
-      } else {
-        console.warn('⚠️ [PYME] No hay tasas guardadas en localStorage');
+      } catch (e) {
+        console.error('❌ [PYME] Error cargando tasas:', e);
+        
+        // Fallback a localStorage si falla Supabase
+        const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
+        if (tasasGuardadas) {
+          try {
+            const tasas = JSON.parse(tasasGuardadas);
+            if (tasas.pyme) {
+              console.log('🔄 [PYME] Usando tasa de caché localStorage:', tasas.pyme);
+              setTasaDinamica(tasas.pyme);
+            }
+          } catch (e2) {
+            console.error('❌ [PYME] Error parseando localStorage:', e2);
+          }
+        }
       }
     };
 

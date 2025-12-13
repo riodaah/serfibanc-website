@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
+import { tasasService } from '../../services/supabaseConfig';
 
 const ConfiguracionTasas = () => {
   const navigate = useNavigate();
@@ -14,6 +15,8 @@ const ConfiguracionTasas = () => {
   });
   const [guardando, setGuardando] = useState(false);
   const [guardado, setGuardado] = useState(false);
+  const [cargando, setCargando] = useState(true);
+  const [error, setError] = useState(null);
 
   // Proteger ruta
   useEffect(() => {
@@ -22,16 +25,25 @@ const ConfiguracionTasas = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Cargar tasas guardadas
+  // Cargar tasas desde Supabase
   useEffect(() => {
-    const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-    if (tasasGuardadas) {
+    const cargarTasas = async () => {
       try {
-        setTasas(JSON.parse(tasasGuardadas));
+        setCargando(true);
+        console.log('📥 [Admin] Cargando tasas desde Supabase...');
+        const tasasObtenidas = await tasasService.obtenerTasas();
+        console.log('✅ [Admin] Tasas obtenidas:', tasasObtenidas);
+        setTasas(tasasObtenidas);
+        setError(null);
       } catch (e) {
-        console.error('Error cargando tasas:', e);
+        console.error('❌ [Admin] Error cargando tasas:', e);
+        setError('Error al cargar las tasas de interés');
+      } finally {
+        setCargando(false);
       }
-    }
+    };
+
+    cargarTasas();
   }, []);
 
   const handleChange = (tipo, valor) => {
@@ -45,29 +57,34 @@ const ConfiguracionTasas = () => {
 
   const handleGuardar = async () => {
     setGuardando(true);
+    setError(null);
     
-    console.log('💾 [Admin] Guardando tasas:', tasas);
-    
-    // Simular guardado (en producción sería a DynamoDB)
-    await new Promise(resolve => setTimeout(resolve, 800));
-    
-    // Guardar en localStorage
-    localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
-    console.log('✅ [Admin] Tasas guardadas en localStorage');
-    
-    // Verificar que se guardó correctamente
-    const verificacion = localStorage.getItem('serfibanc_tasas');
-    console.log('🔍 [Admin] Verificación de guardado:', verificacion);
-    
-    // También actualizar el evento para que los simuladores se enteren
-    window.dispatchEvent(new CustomEvent('tasasActualizadas', { detail: tasas }));
-    console.log('📡 [Admin] Evento tasasActualizadas disparado');
-    
-    setGuardando(false);
-    setGuardado(true);
-    
-    // Quitar mensaje después de 3 segundos
-    setTimeout(() => setGuardado(false), 3000);
+    try {
+      console.log('💾 [Admin] Guardando tasas en Supabase:', tasas);
+      
+      const exito = await tasasService.actualizarTasas(tasas);
+      
+      if (exito) {
+        console.log('✅ [Admin] Tasas guardadas exitosamente en Supabase');
+        
+        // También actualizar localStorage como respaldo (para compatibilidad)
+        localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+        
+        // Disparar evento para que los simuladores se actualicen inmediatamente
+        window.dispatchEvent(new CustomEvent('tasasActualizadas', { detail: tasas }));
+        console.log('📡 [Admin] Evento tasasActualizadas disparado');
+        
+        setGuardado(true);
+        setTimeout(() => setGuardado(false), 3000);
+      } else {
+        throw new Error('No se pudo guardar en Supabase');
+      }
+    } catch (e) {
+      console.error('❌ [Admin] Error guardando tasas:', e);
+      setError('Error al guardar las tasas. Por favor intenta nuevamente.');
+    } finally {
+      setGuardando(false);
+    }
   };
 
   if (!isAuthenticated) {
@@ -179,9 +196,40 @@ const ConfiguracionTasas = () => {
             </p>
           </div>
 
+          {/* Indicador de carga inicial */}
+          {cargando && (
+            <div className="flex items-center justify-center py-12">
+              <div className="flex items-center gap-3 text-blue-600">
+                <svg className="animate-spin h-8 w-8" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
+                </svg>
+                <span className="text-lg font-medium">Cargando tasas desde Supabase...</span>
+              </div>
+            </div>
+          )}
+
+          {/* Mensaje de error */}
+          {error && (
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-red-50 border border-red-200 rounded-lg p-4 flex items-start gap-3"
+            >
+              <svg className="w-6 h-6 text-red-600 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <div>
+                <h4 className="font-semibold text-red-800">Error</h4>
+                <p className="text-sm text-red-700 mt-1">{error}</p>
+              </div>
+            </motion.div>
+          )}
+
           {/* Cards de tasas */}
-          <div className="space-y-6">
-            {tiposCredito.map((tipo, index) => {
+          {!cargando && (
+            <div className="space-y-6">
+              {tiposCredito.map((tipo, index) => {
               const colorClasses = getColorClasses(tipo.color);
               return (
                 <motion.div
@@ -226,8 +274,9 @@ const ConfiguracionTasas = () => {
                   </div>
                 </motion.div>
               );
-            })}
-          </div>
+              })}
+            </div>
+          )}
 
           {/* Botón guardar */}
           <div className="mt-8 flex items-center justify-between">
