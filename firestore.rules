@@ -1,0 +1,20 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Reglas para la colección de configuración de tasas
+    match /configuracion/tasas_interes {
+      // Permitir lectura a todos (público) para que los simuladores funcionen
+      allow read: if true;
+      
+      // Solo permitir escritura a usuarios autenticados con el email autorizado
+      allow write: if request.auth != null 
+                   && request.auth.token.email == 'gcomercial.consultor@gmail.com';
+    }
+    
+    // Bloquear acceso a cualquier otra colección por defecto
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
+

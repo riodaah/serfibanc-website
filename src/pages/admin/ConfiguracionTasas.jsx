@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { useAuth } from '../../context/AuthContext';
-import { tasasService } from '../../services/supabaseConfig';
+import { firestoreTasasService } from '../../services/firestoreTasasService';
 
 const ConfiguracionTasas = () => {
   const navigate = useNavigate();
@@ -25,13 +25,13 @@ const ConfiguracionTasas = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  // Cargar tasas desde Supabase
+  // Cargar tasas desde Firestore
   useEffect(() => {
     const cargarTasas = async () => {
       try {
         setCargando(true);
-        console.log('📥 [Admin] Cargando tasas desde Supabase...');
-        const tasasObtenidas = await tasasService.obtenerTasas();
+        console.log('📥 [Admin] Cargando tasas desde Firestore...');
+        const tasasObtenidas = await firestoreTasasService.obtenerTasas();
         console.log('✅ [Admin] Tasas obtenidas:', tasasObtenidas);
         setTasas(tasasObtenidas);
         setError(null);
@@ -44,6 +44,14 @@ const ConfiguracionTasas = () => {
     };
 
     cargarTasas();
+
+    // Suscribirse a cambios en tiempo real
+    const unsubscribe = firestoreTasasService.suscribirCambios((nuevasTasas) => {
+      console.log('🔄 [Admin] Tasas actualizadas en tiempo real');
+      setTasas(nuevasTasas);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleChange = (tipo, valor) => {
@@ -60,15 +68,12 @@ const ConfiguracionTasas = () => {
     setError(null);
     
     try {
-      console.log('💾 [Admin] Guardando tasas en Supabase:', tasas);
+      console.log('💾 [Admin] Guardando tasas en Firestore:', tasas);
       
-      const exito = await tasasService.actualizarTasas(tasas);
+      const exito = await firestoreTasasService.actualizarTasas(tasas, usuario?.email || 'admin');
       
       if (exito) {
-        console.log('✅ [Admin] Tasas guardadas exitosamente en Supabase');
-        
-        // También actualizar localStorage como respaldo (para compatibilidad)
-        localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
+        console.log('✅ [Admin] Tasas guardadas exitosamente en Firestore');
         
         // Disparar evento para que los simuladores se actualicen inmediatamente
         window.dispatchEvent(new CustomEvent('tasasActualizadas', { detail: tasas }));
@@ -77,7 +82,7 @@ const ConfiguracionTasas = () => {
         setGuardado(true);
         setTimeout(() => setGuardado(false), 3000);
       } else {
-        throw new Error('No se pudo guardar en Supabase');
+        throw new Error('No se pudo guardar en Firestore');
       }
     } catch (e) {
       console.error('❌ [Admin] Error guardando tasas:', e);

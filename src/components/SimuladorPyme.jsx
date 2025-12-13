@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
 import SimulacionResumenModal from './SimulacionResumenModal';
-import { tasasService } from '../services/supabaseConfig';
+import { firestoreTasasService } from '../services/firestoreTasasService';
 
 const SimuladorPyme = () => {
   const configSimulacion = config.simulacion.pyme;
@@ -20,56 +20,48 @@ const SimuladorPyme = () => {
   const [errores, setErrores] = useState({});
   const [tasaDinamica, setTasaDinamica] = useState(config.simulacion.tasaInteresPorDefecto);
 
-  // Cargar tasas desde Supabase (configuradas por admin)
+  // Cargar tasas desde Firestore (configuradas por admin)
   useEffect(() => {
     const cargarTasas = async () => {
       try {
-        console.log('📥 [PYME] Cargando tasas desde Supabase...');
-        const tasas = await tasasService.obtenerTasas();
+        console.log('📥 [PYME] Cargando tasas desde Firestore...');
+        const tasas = await firestoreTasasService.obtenerTasas();
         console.log('✅ [PYME] Tasas obtenidas:', tasas);
         
         if (tasas.pyme) {
           console.log('✅ [PYME] Aplicando tasa:', tasas.pyme);
           setTasaDinamica(tasas.pyme);
-          
-          // También actualizar localStorage como caché
-          localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
-        } else {
-          console.warn('⚠️ [PYME] No se encontró tasa para pyme');
         }
       } catch (e) {
         console.error('❌ [PYME] Error cargando tasas:', e);
-        
-        // Fallback a localStorage si falla Supabase
-        const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-        if (tasasGuardadas) {
-          try {
-            const tasas = JSON.parse(tasasGuardadas);
-            if (tasas.pyme) {
-              console.log('🔄 [PYME] Usando tasa de caché localStorage:', tasas.pyme);
-              setTasaDinamica(tasas.pyme);
-            }
-          } catch (e2) {
-            console.error('❌ [PYME] Error parseando localStorage:', e2);
-          }
-        }
       }
     };
 
     cargarTasas();
 
-    // Escuchar cambios de tasas (cuando admin las actualiza)
+    // Suscribirse a cambios en tiempo real
+    const unsubscribe = firestoreTasasService.suscribirCambios((tasas) => {
+      if (tasas.pyme) {
+        console.log('🔄 [PYME] Tasa actualizada en tiempo real:', tasas.pyme);
+        setTasaDinamica(tasas.pyme);
+      }
+    });
+
+    // Escuchar cambios de tasas (cuando admin las actualiza en la misma pestaña)
     const handleTasasActualizadas = (event) => {
       const tasas = event.detail;
-      console.log('📡 [PYME] Evento tasasActualizadas recibido:', tasas);
       if (tasas.pyme) {
-        console.log('✅ [PYME] Actualizando tasa desde evento:', tasas.pyme);
+        console.log('📡 [PYME] Actualizando tasa desde evento:', tasas.pyme);
         setTasaDinamica(tasas.pyme);
       }
     };
 
     window.addEventListener('tasasActualizadas', handleTasasActualizadas);
-    return () => window.removeEventListener('tasasActualizadas', handleTasasActualizadas);
+    
+    return () => {
+      unsubscribe();
+      window.removeEventListener('tasasActualizadas', handleTasasActualizadas);
+    };
   }, []);
 
   const handleChange = (e) => {

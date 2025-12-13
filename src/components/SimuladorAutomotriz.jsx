@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import config from '../config.json';
 import { formatearMonto, calcularCuotaMensual } from '../services/simulacionApi';
 import SimulacionResumenModal from './SimulacionResumenModal';
-import { tasasService } from '../services/supabaseConfig';
+import { firestoreTasasService } from '../services/firestoreTasasService';
 
 const SimuladorAutomotriz = () => {
   const configSimulacion = config.simulacion.automotriz;
@@ -22,56 +22,48 @@ const SimuladorAutomotriz = () => {
   const [errores, setErrores] = useState({});
   const [tasaDinamica, setTasaDinamica] = useState(config.simulacion.tasaInteresPorDefecto);
 
-  // Cargar tasas desde Supabase (configuradas por admin)
+  // Cargar tasas desde Firestore (configuradas por admin)
   useEffect(() => {
     const cargarTasas = async () => {
       try {
-        console.log('📥 [Automotriz] Cargando tasas desde Supabase...');
-        const tasas = await tasasService.obtenerTasas();
+        console.log('📥 [Automotriz] Cargando tasas desde Firestore...');
+        const tasas = await firestoreTasasService.obtenerTasas();
         console.log('✅ [Automotriz] Tasas obtenidas:', tasas);
         
         if (tasas.automotriz) {
           console.log('✅ [Automotriz] Aplicando tasa:', tasas.automotriz);
           setTasaDinamica(tasas.automotriz);
-          
-          // También actualizar localStorage como caché
-          localStorage.setItem('serfibanc_tasas', JSON.stringify(tasas));
-        } else {
-          console.warn('⚠️ [Automotriz] No se encontró tasa para automotriz');
         }
       } catch (e) {
         console.error('❌ [Automotriz] Error cargando tasas:', e);
-        
-        // Fallback a localStorage si falla Supabase
-        const tasasGuardadas = localStorage.getItem('serfibanc_tasas');
-        if (tasasGuardadas) {
-          try {
-            const tasas = JSON.parse(tasasGuardadas);
-            if (tasas.automotriz) {
-              console.log('🔄 [Automotriz] Usando tasa de caché localStorage:', tasas.automotriz);
-              setTasaDinamica(tasas.automotriz);
-            }
-          } catch (e2) {
-            console.error('❌ [Automotriz] Error parseando localStorage:', e2);
-          }
-        }
       }
     };
 
     cargarTasas();
 
-    // Escuchar cambios de tasas (cuando admin las actualiza)
+    // Suscribirse a cambios en tiempo real
+    const unsubscribe = firestoreTasasService.suscribirCambios((tasas) => {
+      if (tasas.automotriz) {
+        console.log('🔄 [Automotriz] Tasa actualizada en tiempo real:', tasas.automotriz);
+        setTasaDinamica(tasas.automotriz);
+      }
+    });
+
+    // Escuchar cambios de tasas (cuando admin las actualiza en la misma pestaña)
     const handleTasasActualizadas = (event) => {
       const tasas = event.detail;
-      console.log('📡 [Automotriz] Evento tasasActualizadas recibido:', tasas);
       if (tasas.automotriz) {
-        console.log('✅ [Automotriz] Actualizando tasa desde evento:', tasas.automotriz);
+        console.log('📡 [Automotriz] Actualizando tasa desde evento:', tasas.automotriz);
         setTasaDinamica(tasas.automotriz);
       }
     };
 
     window.addEventListener('tasasActualizadas', handleTasasActualizadas);
-    return () => window.removeEventListener('tasasActualizadas', handleTasasActualizadas);
+    
+    return () => {
+      unsubscribe();
+      window.removeEventListener('tasasActualizadas', handleTasasActualizadas);
+    };
   }, []);
 
   const handleChange = (e) => {
