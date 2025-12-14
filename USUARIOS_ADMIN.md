@@ -126,3 +126,4 @@ No, debes crearlos manualmente en Firebase Console. Una vez creados, el sistema 
 **¿Qué pasa si olvido configurar Firebase?**
 No pasa nada, el sistema seguirá funcionando con localStorage indefinidamente.
 
+

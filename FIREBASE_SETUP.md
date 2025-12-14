@@ -245,3 +245,4 @@ Si tienes problemas:
 3. Verifica que todas las variables de entorno estén configuradas
 4. Verifica que el usuario admin exista en Firebase Auth
 
+

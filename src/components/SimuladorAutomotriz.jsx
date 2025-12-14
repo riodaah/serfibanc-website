@@ -11,8 +11,6 @@ const SimuladorAutomotriz = () => {
   const [formData, setFormData] = useState({
     monto: configSimulacion.opcionesMonto[2] || configSimulacion.opcionesMonto[0],
     cuotas: configSimulacion.opcionesCuotas[2] || configSimulacion.opcionesCuotas[0],
-    ingresoMensual: '',
-    antiguedad: '',
     aceptaWhatsapp: false,
     aceptaCondiciones: false
   });
@@ -83,10 +81,6 @@ const SimuladorAutomotriz = () => {
 
     if (!formData.monto) nuevosErrores.monto = 'Selecciona un monto';
     if (!formData.cuotas) nuevosErrores.cuotas = 'Selecciona cantidad de cuotas';
-    if (!formData.ingresoMensual || formData.ingresoMensual <= 0) {
-      nuevosErrores.ingresoMensual = 'Ingresa tu ingreso mensual';
-    }
-    if (!formData.antiguedad) nuevosErrores.antiguedad = 'Selecciona una opción';
     if (!formData.aceptaWhatsapp) nuevosErrores.aceptaWhatsapp = 'Debes aceptar contacto por WhatsApp';
     if (!formData.aceptaCondiciones) nuevosErrores.aceptaCondiciones = 'Debes aceptar las condiciones';
 
@@ -172,55 +166,6 @@ const SimuladorAutomotriz = () => {
               ))}
             </select>
             {errores.cuotas && <p className="text-red-500 text-sm mt-1">{errores.cuotas}</p>}
-          </div>
-
-          {/* Ingreso Líquido Mensual */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Ingreso Líquido Mensual <span className="text-red-500">*</span>
-            </label>
-            <input
-              type="number"
-              name="ingresoMensual"
-              value={formData.ingresoMensual}
-              onChange={handleChange}
-              min="0"
-              className={`w-full px-4 py-3 rounded-lg border ${errores.ingresoMensual ? 'border-red-500' : 'border-gray-300'} focus:border-primary-medium focus:ring-2 focus:ring-primary-light/50 outline-none transition-all`}
-              placeholder="0"
-            />
-            {errores.ingresoMensual && <p className="text-red-500 text-sm mt-1">{errores.ingresoMensual}</p>}
-          </div>
-
-          {/* Antigüedad */}
-          <div>
-            <label className="block text-sm font-semibold text-gray-700 mb-3">
-              Antigüedad <span className="text-red-500">*</span>
-            </label>
-            <div className="flex gap-6">
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="antiguedad"
-                  value="si"
-                  checked={formData.antiguedad === 'si'}
-                  onChange={handleChange}
-                  className="w-4 h-4 text-primary-medium focus:ring-primary-light"
-                />
-                <span className="ml-2 text-gray-700">Sí</span>
-              </label>
-              <label className="flex items-center cursor-pointer">
-                <input
-                  type="radio"
-                  name="antiguedad"
-                  value="no"
-                  checked={formData.antiguedad === 'no'}
-                  onChange={handleChange}
-                  className="w-4 h-4 text-primary-medium focus:ring-primary-light"
-                />
-                <span className="ml-2 text-gray-700">No</span>
-              </label>
-            </div>
-            {errores.antiguedad && <p className="text-red-500 text-sm mt-1">{errores.antiguedad}</p>}
           </div>
 
           {/* Tasa de Interés */}

@@ -66,6 +66,9 @@ export const enviarEmailContacto = async (datos) => {
 
 /**
  * Enviar email de simulación de crédito
+ * ENVÍA DOS EMAILS:
+ * 1. Al admin (contacto@serfibanc.cl) con los datos de la simulación
+ * 2. Al cliente (email del formulario) con copia de su simulación
  */
 export const enviarEmailSimulacion = async (datos) => {
   // Si EmailJS no está configurado, simular envío
@@ -85,7 +88,7 @@ export const enviarEmailSimulacion = async (datos) => {
       }).format(monto);
     };
 
-    const templateParams = {
+    const templateParamsBase = {
       // Datos del cliente
       cliente_nombre: datos.nombre,
       cliente_email: datos.email,
@@ -97,26 +100,44 @@ export const enviarEmailSimulacion = async (datos) => {
       cantidad_cuotas: datos.cuotas,
       tasa_interes: datos.tasaInteres,
       cuota_mensual: formatMonto(datos.cuotaMensual),
-      ingreso_mensual: formatMonto(datos.ingresoMensual || 0),
-      antiguedad: datos.antiguedad === 'si' ? 'Sí' : 'No',
       
       // Metadatos
       fecha: new Date().toLocaleDateString('es-CL'),
-      hora: new Date().toLocaleTimeString('es-CL'),
-      
-      // Email destino admin
-      to_email: 'contacto@serfibanc.cl'
+      hora: new Date().toLocaleTimeString('es-CL')
     };
 
-    const response = await window.emailjs.send(
+    // 1️⃣ Enviar email al ADMIN
+    console.log('📧 [1/2] Enviando email al admin...');
+    const responseAdmin = await window.emailjs.send(
       EMAILJS_CONFIG.serviceId,
       EMAILJS_CONFIG.templates.simulacion,
-      templateParams,
-      EMAILJS_CONFIG.publicKey  // Agregar public key aquí
+      {
+        ...templateParamsBase,
+        to_email: 'contacto@serfibanc.cl'
+      },
+      EMAILJS_CONFIG.publicKey
     );
+    console.log('✅ Email al admin enviado:', responseAdmin);
 
-    console.log('✅ Email de simulación enviado:', response);
-    return { success: true, response };
+    // 2️⃣ Enviar email al CLIENTE
+    console.log('📧 [2/2] Enviando email al cliente...');
+    const responseCliente = await window.emailjs.send(
+      EMAILJS_CONFIG.serviceId,
+      EMAILJS_CONFIG.templates.simulacion,
+      {
+        ...templateParamsBase,
+        to_email: datos.email  // Email del cliente
+      },
+      EMAILJS_CONFIG.publicKey
+    );
+    console.log('✅ Email al cliente enviado:', responseCliente);
+
+    return { 
+      success: true, 
+      responseAdmin, 
+      responseCliente,
+      message: 'Emails enviados al admin y al cliente'
+    };
   } catch (error) {
     console.error('❌ Error enviando email de simulación:', error);
     return { success: false, error };

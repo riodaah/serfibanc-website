@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { formatearMonto } from '../services/simulacionApi';
 import { enviarEmailSimulacion } from '../services/emailService';
+import { guardarSimulacionEnSheet } from '../services/googleSheetsService';
 import config from '../config.json';
 
 const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
@@ -51,23 +52,33 @@ const SimulacionResumenModal = ({ simulacion, datosFormulario, onClose }) => {
         cuotas: simulacion.cuotas,
         tasaInteres: simulacion.tasa,
         cuotaMensual: simulacion.cuotaMensual,
-        ingresoMensual: datosFormulario.ingresoMensual,
-        antiguedad: datosFormulario.antiguedad
+        // Datos adicionales
+        aceptaWhatsapp: datosFormulario.aceptaWhatsapp
       };
 
-      // Enviar vía EmailJS
+      // 1️⃣ Guardar en Google Sheets (no bloqueante)
+      console.log('📊 Guardando simulación en Google Sheets...');
+      guardarSimulacionEnSheet(datosCompletos).catch(err => {
+        console.warn('⚠️ No se pudo guardar en Google Sheets:', err);
+        // No bloqueamos el flujo si falla Google Sheets
+      });
+
+      // 2️⃣ Enviar emails (al admin Y al cliente)
+      console.log('📧 Enviando emails...');
       const resultado = await enviarEmailSimulacion(datosCompletos);
       
       if (resultado.success) {
+        console.log('✅ Simulación procesada exitosamente');
         setEnviado(true);
         // Cerrar modal después de 3 segundos
         setTimeout(() => {
           onClose();
         }, 3000);
       } else {
-        throw new Error('Error al enviar');
+        throw new Error('Error al enviar emails');
       }
     } catch (err) {
+      console.error('❌ Error en handleEnviar:', err);
       setError('Hubo un error al enviar la simulación. Por favor, intenta nuevamente.');
       setEnviando(false);
     }
